@@ -1,3 +1,4 @@
-## 1.0.0
-
-- Initial version, created by Stagehand
+## 0.2.0-dev
+### Added
+- Added dependency classes `Factory`, `Singleton`, `LazySingleton`.
+- Added a container.
