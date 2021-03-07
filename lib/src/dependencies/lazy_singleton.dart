@@ -2,16 +2,16 @@ import '../../lovely_di.dart';
 import '../interfaces/i_dependency.dart';
 
 class LazySingleton<T> implements IDependency<T> {
-  final GetInstance<T> _getInstance;
+  final GetInstance<T> _createInstance;
   final OnDispose<T>? onDispose;
 
   const LazySingleton(
-    this._getInstance, {
+    this._createInstance, {
     this.onDispose,
   });
 
   @override
-  T initInstance(IContainer scope) => _getInstance(scope);
+  T initInstance(IContainer scope) => _createInstance(scope);
 
   @override
   bool shouldUpdateInstance(T oldInstance) => false;

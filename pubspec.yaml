@@ -1,6 +1,6 @@
 name: lovely_di
 description: Levely DI.
-version: 0.2.0-dev
+version: 0.3.0-dev
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
