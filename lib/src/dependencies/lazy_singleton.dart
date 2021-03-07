@@ -1,5 +1,5 @@
+import '../../lovely_di.dart';
 import '../interfaces/i_dependency.dart';
-import '../utils/converters.dart';
 
 class LazySingleton<T> implements IDependency<T> {
   final GetInstance<T> _getInstance;
@@ -11,16 +11,11 @@ class LazySingleton<T> implements IDependency<T> {
   });
 
   @override
-  T initInstance() => _getInstance();
+  T initInstance(IContainer scope) => _getInstance(scope);
 
   @override
   bool shouldUpdateInstance(T oldInstance) => false;
 
   @override
-  Future<void> disposeInstance(T instance) {
-    return onDisposeToDisposeInstance(
-      instance: instance,
-      onDispose: onDispose,
-    );
-  }
+  Future<void> disposeInstance(T instance) async => onDispose?.call(instance);
 }

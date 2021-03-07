@@ -1,34 +1,43 @@
 import '../exceptions/dependency_exception.dart';
 import '../interfaces/i_container.dart';
 import '../interfaces/i_dependency.dart';
-import '../utils/dependency_registry.dart';
+import '../instance_store.dart';
 
 class Container implements IContainer {
-  final DependencyRegistry registry = DependencyRegistry();
+  final InstanceStore _lastInstances = InstanceStore();
 
   @override
-  T call<T>(IDependency<T> dependency) {
-    if (!registry.isDependencyRegistered(dependency)) {
-      return registry.initAndRegisterInstance(dependency);
+  T get<T>(IDependency<T> dependency) {
+    if (!_lastInstances.isInstanceSaved(dependency)) {
+      return _initAndSaveInstance(dependency);
     }
 
-    final lastInstance = registry.getInstanceForDependency(dependency);
+    final lastInstance = _lastInstances.getInstanceForDependency(dependency);
     if (dependency.shouldUpdateInstance(lastInstance)) {
-      return registry.initAndRegisterInstance(dependency);
+      return _initAndSaveInstance(dependency);
     }
 
     return lastInstance;
   }
 
   @override
+  T call<T>(IDependency<T> dependency) => get(dependency);
+
+  @override
   Future<void> dispose<T>(IDependency<T> dependency, T instance) async {
-    if (!registry.isDependencyRegistered(dependency)) {
+    if (!_lastInstances.isInstanceSaved(dependency)) {
       throw DependencyException(
         'You try to dispose a dependency before it has been registered.',
       );
     }
 
     await dependency.disposeInstance(instance);
-    registry.removeInstanceForDependency(dependency);
+    _lastInstances.removeInstanceForDependency(dependency);
+  }
+
+  T _initAndSaveInstance<T>(IDependency<T> dependency) {
+    final instance = dependency.initInstance(this);
+    _lastInstances.saveInstanceForDependency(dependency, instance);
+    return instance;
   }
 }

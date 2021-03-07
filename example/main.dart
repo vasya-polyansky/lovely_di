@@ -37,9 +37,11 @@ class SomeClosable implements IClosable {
 
 final container = Container();
 
-final repositoryDependency = Singleton<IRepository>(SomeRepository());
-final closableDependency = Factory<IClosable>(
-  () => SomeClosable(container(repositoryDependency)),
+final IDependency<IRepository> repositoryDependency = LazySingleton((_) => SomeRepository());
+final IDependency<IClosable> closableDependency = Factory(
+  (scope) => SomeClosable(
+    scope(repositoryDependency),
+  ),
   onDispose: (bloc) async {
     bloc.close();
   },
