@@ -1,8 +1,9 @@
-import '../../lovely_di.dart';
+import '../interfaces/i_container.dart';
+import '../interfaces/typedefs.dart';
 import '../interfaces/i_dependency.dart';
 
 class Factory<T> implements IDependency<T> {
-  final GetInstance<T> _createInstance;
+  final CreateInstance<T> _createInstance;
   final OnDispose<T>? onDispose;
 
   const Factory(
@@ -11,11 +12,11 @@ class Factory<T> implements IDependency<T> {
   });
 
   @override
-  T initInstance(IContainer scope) => _createInstance(scope);
+  T createValue(IContainer scope) => _createInstance(scope);
 
   @override
-  bool shouldUpdateInstance(T oldInstance) => true;
+  bool shouldUpdateValue(T oldInstance) => true;
 
   @override
-  Future<void> disposeInstance(T instance) async => onDispose?.call(instance);
+  Future<void> disposeValue(T instance) async => onDispose?.call(instance);
 }

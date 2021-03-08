@@ -7,7 +7,7 @@ abstract class IRepository {
 class SomeRepository implements IRepository {
   @override
   void clear() {
-    print('SomeRepository cleaned');
+    print('SomeRepository cleared');
   }
 }
 
@@ -37,18 +37,21 @@ class SomeClosable implements IClosable {
 
 final container = Container();
 
-final IDependency<IRepository> repositoryDependency = LazySingleton((_) => SomeRepository());
-final IDependency<IClosable> closableDependency = Factory(
-  (scope) => SomeClosable(
-    scope(repositoryDependency),
-  ),
+final repositoryDependency = LazySingleton<IRepository>((_) => SomeRepository());
+final closableDependency = AsyncFactory<IClosable>(
+  (scope) async {
+    await Future.delayed(Duration(milliseconds: 100));
+    return SomeClosable(
+      scope.get(repositoryDependency),
+    );
+  },
   onDispose: (bloc) async {
     bloc.close();
   },
 );
 
-void main() {
-  final closable = container(closableDependency);
+Future<void> main() async {
+  final closable = await container.getAsync(closableDependency);
   closable.doSomething();
-  container.dispose(closableDependency, closable);
+  await container.dispose(closableDependency, closable);
 }

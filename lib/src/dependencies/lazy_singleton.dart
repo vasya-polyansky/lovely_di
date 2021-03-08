@@ -1,21 +1,15 @@
-import '../../lovely_di.dart';
-import '../interfaces/i_dependency.dart';
+import '../interfaces/typedefs.dart';
+import 'factory.dart';
 
-class LazySingleton<T> implements IDependency<T> {
-  final GetInstance<T> _createInstance;
-  final OnDispose<T>? onDispose;
-
+class LazySingleton<T> extends Factory<T> {
   const LazySingleton(
-    this._createInstance, {
-    this.onDispose,
-  });
+    CreateInstance<T> createInstance, {
+    OnDispose<T>? onDispose,
+  }) : super(
+          createInstance,
+          onDispose: onDispose,
+        );
 
   @override
-  T initInstance(IContainer scope) => _createInstance(scope);
-
-  @override
-  bool shouldUpdateInstance(T oldInstance) => false;
-
-  @override
-  Future<void> disposeInstance(T instance) async => onDispose?.call(instance);
+  bool shouldUpdateValue(T oldInstance) => false;
 }

@@ -1,27 +1,27 @@
-import 'interfaces/i_dependency.dart';
+import 'interfaces/i_base_dependency.dart';
 
-class InstanceStore {
-  final Map<IDependency, dynamic> _savedInstances = {};
+class ResolvedValueStore<D extends IBaseDependency<V>, V> {
+  final Map<D, V> _savedValues = {};
 
-  bool isInstanceSaved(IDependency dependency) {
-    return _savedInstances.containsKey(dependency);
+  bool isValueSaved(D dependency) {
+    return _savedValues.containsKey(dependency);
   }
 
-  void saveInstanceForDependency<T>(
-    IDependency<T> dependency,
-    T instance,
+  void saveValueForDependency(
+    D dependency,
+    V value,
   ) {
-    _savedInstances[dependency] = instance;
+    _savedValues[dependency] = value;
   }
 
-  T getInstanceForDependency<T>(IDependency<T> dependency) {
-    final entry = _savedInstances.entries.singleWhere(
+  V geValueForDependency(D dependency) {
+    final entry = _savedValues.entries.singleWhere(
       (entry) => identical(entry.key, dependency),
     );
     return entry.value;
   }
 
-  void removeInstanceForDependency<T>(IDependency<T> dependency) {
-    _savedInstances.remove(dependency);
+  void removeValueForDependency(D dependency) {
+    _savedValues.remove(dependency);
   }
 }

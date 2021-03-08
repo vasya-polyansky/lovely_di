@@ -1,13 +1,8 @@
-import 'package:lovely_di/lovely_di.dart';
+import 'i_base_dependency.dart';
+import 'i_container.dart';
 
-typedef GetInstance<R> = R Function(IContainer scope);
-typedef GetInstanceAsync<R> = Future<R> Function(IContainer scope);
-typedef OnDispose<T> = Future<void> Function(T instance);
+abstract class IDependency<T> implements IBaseDependency<T> {
+  T createValue(IContainer scope);
 
-abstract class IDependency<T> {
-  T initInstance(IContainer scope);
-
-  bool shouldUpdateInstance(T lastInstance);
-
-  Future<void> disposeInstance(T instance);
+  bool shouldUpdateValue(T resolvedValue);
 }
