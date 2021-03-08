@@ -1,5 +1,4 @@
-import 'package:lovely_di/src/interfaces/i_base_dependency.dart';
-
+import '../interfaces/i_base_dependency.dart';
 import '../interfaces/i_async_dependency.dart';
 import '../exceptions/dependency_exception.dart';
 import '../interfaces/i_container.dart';
