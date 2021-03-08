@@ -3,7 +3,7 @@ import '../interfaces/i_async_dependency.dart';
 import '../exceptions/dependency_exception.dart';
 import '../interfaces/i_container.dart';
 import '../interfaces/i_dependency.dart';
-import '../instance_store.dart';
+import '../resolved_value_store.dart';
 
 class Container implements IContainer {
   final ResolvedValueStore _lastResolvedValues = ResolvedValueStore();
@@ -45,7 +45,7 @@ class Container implements IContainer {
     }
 
     await dependency.disposeValue(resolvedValue);
-    _lastResolvedValues.removeValueForDependency(dependency);
+    _lastResolvedValues.removeDependencyAndValue(dependency);
   }
 
   T _createAndSaveValue<T>(IDependency<T> dependency) {

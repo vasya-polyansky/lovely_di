@@ -21,7 +21,7 @@ class ResolvedValueStore<D extends IBaseDependency<V>, V> {
     return entry.value;
   }
 
-  void removeValueForDependency(D dependency) {
+  void removeDependencyAndValue(D dependency) {
     _savedValues.remove(dependency);
   }
 }
