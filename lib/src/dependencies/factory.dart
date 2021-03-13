@@ -2,17 +2,22 @@ import '../interfaces/i_container.dart';
 import '../interfaces/typedefs.dart';
 import '../interfaces/i_blueprint.dart';
 
+/// Factory blueprint.
+/// Its value will be created each time [IContainer.get] is called.
 class Factory<T> implements IBlueprint<T> {
-  final CreateInstance<T> _createInstance;
+  /// Creates a new value.
+  final CreateInstance<T> createInstance;
+
+  /// Disposes a value.
   final OnDispose<T>? onDispose;
 
   const Factory(
-    this._createInstance, {
+    this.createInstance, {
     this.onDispose,
   });
 
   @override
-  T createValue(IContainer scope) => _createInstance(scope);
+  T createValue(IContainer scope) => createInstance(scope);
 
   @override
   bool shouldUpdateValue(T oldInstance) => true;

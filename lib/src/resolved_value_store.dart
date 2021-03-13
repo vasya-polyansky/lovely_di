@@ -1,5 +1,6 @@
 import 'interfaces/i_base_blueprint.dart';
 
+/// Just a wrapper on [Map] to store blueprint values in an easier way.
 class ResolvedValueStore<B extends IBaseBlueprint<V>, V> {
   final Map<B, V> _savedValues = {};
 
