@@ -1,5 +1,5 @@
 name: lovely_di
-description: A dependency injection library what guarantees compile-time errors instead of runtime errors.
+description: A dependency injection library that guarantees compile-time errors instead of runtime errors.
 repository: https://github.com/eboshare/lovely_di
 issue_tracker: https://github.com/eboshare/lovely_di/issues
 
