@@ -40,7 +40,7 @@ final container = Container();
 final someRepository = LazySingleton<IRepository>((_) => SomeRepository());
 final closable = AsyncFactory<IClosable>(
   (scope) async {
-    await Future.delayed(Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 100));
     return SomeClosable(
       scope.get(someRepository),
     );
