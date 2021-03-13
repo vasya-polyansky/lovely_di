@@ -1,57 +1,30 @@
 import 'package:lovely_di/lovely_di.dart';
 
-abstract class IRepository {
-  void clear();
-}
-
-class SomeRepository implements IRepository {
-  @override
-  void clear() {
-    print('SomeRepository cleared');
-  }
-}
-
-abstract class IClosable {
-  void doSomething();
-
-  void close();
-}
-
-class SomeClosable implements IClosable {
-  final IRepository _repository;
-
-  const SomeClosable(this._repository);
-
-  @override
-  void doSomething() {
-    print('Cool');
-  }
-
-  @override
-  void close() {
-    _repository.clear();
-  }
-}
-
-// ------------------
+import 'api_client.dart';
+import 'movie_presenter.dart';
 
 final container = Container();
 
-final someRepository = LazySingleton<IRepository>((_) => SomeRepository());
-final closable = AsyncFactory<IClosable>(
-  (scope) async {
-    await Future.delayed(const Duration(milliseconds: 100));
-    return SomeClosable(
-      scope.get(someRepository),
-    );
-  },
-  onDispose: (bloc) async {
-    bloc.close();
+final apiClientBlueprint = LazySingleton<IMovieApiClient>(
+  (scope) => ExampleMovieApiClient(),
+);
+
+final moviePresenterBlueprint = AsyncFactory<IMoviePresenter>(
+  // Async initialization.
+  (scope) async => await ExampleMoviePresenter.create(
+    scope.get(apiClientBlueprint),
+  ),
+  onDispose: (presenter) async {
+    presenter.close();
   },
 );
 
 Future<void> main() async {
-  final instance = await container.getAsync(closable);
-  instance.doSomething();
-  await container.dispose(closable, instance);
+  final presenter = await container.getAsync(moviePresenterBlueprint);
+
+  // Prints 'Shrek, Spirited Away, Rush'.
+  await presenter.showTitles();
+
+  // Prints 'ExampleMoviePresenter closed'.
+  await container.dispose(moviePresenterBlueprint, presenter);
 }
