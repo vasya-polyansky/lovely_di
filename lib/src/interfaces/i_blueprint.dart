@@ -6,6 +6,7 @@ import 'i_container.dart';
 abstract class IBlueprint<T> implements IBaseBlueprint<T> {
   /// Creates a new value of this blueprint.
   /// Used by [IContainer] to initialize or update a value.
+  /// [scope] is a current container.
   T createValue(IContainer scope);
 
   /// Defines whether a value should be updated.
