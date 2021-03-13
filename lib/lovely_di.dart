@@ -1,9 +1,9 @@
 export 'src/interfaces/typedefs.dart';
 export 'src/interfaces/i_container.dart';
-export 'src/interfaces/i_base_dependency.dart';
-export 'src/interfaces/i_dependency.dart';
-export 'src/interfaces/i_async_dependency.dart';
-export 'src/exceptions/dependency_exception.dart';
+export 'src/interfaces/i_base_blueprint.dart';
+export 'src/interfaces/i_blueprint.dart';
+export 'src/interfaces/i_async_blueprint.dart';
+export 'src/exceptions/blueprint_exception.dart';
 
 export 'src/containers/container.dart';
 export 'src/dependencies/factory.dart';

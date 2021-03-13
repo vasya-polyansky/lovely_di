@@ -1,8 +1,8 @@
 import '../interfaces/i_container.dart';
 import '../interfaces/typedefs.dart';
-import '../interfaces/i_dependency.dart';
+import '../interfaces/i_blueprint.dart';
 
-class Factory<T> implements IDependency<T> {
+class Factory<T> implements IBlueprint<T> {
   final CreateInstance<T> _createInstance;
   final OnDispose<T>? onDispose;
 

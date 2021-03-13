@@ -37,12 +37,12 @@ class SomeClosable implements IClosable {
 
 final container = Container();
 
-final repositoryDependency = LazySingleton<IRepository>((_) => SomeRepository());
-final closableDependency = AsyncFactory<IClosable>(
+final someRepository = LazySingleton<IRepository>((_) => SomeRepository());
+final closable = AsyncFactory<IClosable>(
   (scope) async {
     await Future.delayed(Duration(milliseconds: 100));
     return SomeClosable(
-      scope.get(repositoryDependency),
+      scope.get(someRepository),
     );
   },
   onDispose: (bloc) async {
@@ -51,7 +51,7 @@ final closableDependency = AsyncFactory<IClosable>(
 );
 
 Future<void> main() async {
-  final closable = await container.getAsync(closableDependency);
-  closable.doSomething();
-  await container.dispose(closableDependency, closable);
+  final instance = await container.getAsync(closable);
+  instance.doSomething();
+  await container.dispose(closable, instance);
 }

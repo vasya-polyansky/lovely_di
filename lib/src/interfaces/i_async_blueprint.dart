@@ -1,7 +1,7 @@
-import 'i_base_dependency.dart';
+import 'i_base_blueprint.dart';
 import 'i_container.dart';
 
-abstract class IAsyncDependency<T> implements IBaseDependency<T> {
+abstract class IAsyncBlueprint<T> implements IBaseBlueprint<T> {
   Future<T> createValue(IContainer scope);
 
   Future<bool> shouldUpdateValue(T resolvedValue);

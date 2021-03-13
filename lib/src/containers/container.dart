@@ -1,62 +1,62 @@
-import '../interfaces/i_base_dependency.dart';
-import '../interfaces/i_async_dependency.dart';
-import '../exceptions/dependency_exception.dart';
+import '../interfaces/i_base_blueprint.dart';
+import '../interfaces/i_async_blueprint.dart';
+import '../exceptions/blueprint_exception.dart';
 import '../interfaces/i_container.dart';
-import '../interfaces/i_dependency.dart';
+import '../interfaces/i_blueprint.dart';
 import '../resolved_value_store.dart';
 
 class Container implements IContainer {
   final ResolvedValueStore _lastResolvedValues = ResolvedValueStore();
 
   @override
-  T get<T>(IDependency<T> dependency) {
-    if (!_lastResolvedValues.isValueSaved(dependency)) {
-      return _createAndSaveValue(dependency);
+  T get<T>(IBlueprint<T> blueprint) {
+    if (!_lastResolvedValues.isValueSaved(blueprint)) {
+      return _createAndSaveValue(blueprint);
     }
 
-    final lastValue = _lastResolvedValues.geValueForDependency(dependency);
-    if (dependency.shouldUpdateValue(lastValue)) {
-      return _createAndSaveValue(dependency);
-    }
-
-    return lastValue;
-  }
-
-  @override
-  Future<T> getAsync<T>(IAsyncDependency<T> dependency) async {
-    if (!_lastResolvedValues.isValueSaved(dependency)) {
-      return _createAndSaveValueAsync(dependency);
-    }
-
-    final lastValue = _lastResolvedValues.geValueForDependency(dependency);
-    if (await dependency.shouldUpdateValue(lastValue)) {
-      return _createAndSaveValueAsync(dependency);
+    final lastValue = _lastResolvedValues.geValueForBlueprint(blueprint);
+    if (blueprint.shouldUpdateValue(lastValue)) {
+      return _createAndSaveValue(blueprint);
     }
 
     return lastValue;
   }
 
   @override
-  Future<void> dispose<T>(IBaseDependency<T> dependency, T resolvedValue) async {
-    if (!_lastResolvedValues.isValueSaved(dependency)) {
-      throw DependencyException(
-        'You are trying to dispose a dependency before it has been resolved.',
+  Future<T> getAsync<T>(IAsyncBlueprint<T> blueprint) async {
+    if (!_lastResolvedValues.isValueSaved(blueprint)) {
+      return _createAndSaveValueAsync(blueprint);
+    }
+
+    final lastValue = _lastResolvedValues.geValueForBlueprint(blueprint);
+    if (await blueprint.shouldUpdateValue(lastValue)) {
+      return _createAndSaveValueAsync(blueprint);
+    }
+
+    return lastValue;
+  }
+
+  @override
+  Future<void> dispose<T>(IBaseBlueprint<T> blueprint, T resolvedValue) async {
+    if (!_lastResolvedValues.isValueSaved(blueprint)) {
+      throw BlueprintException(
+        'You are trying to dispose a blueprint before it has been resolved.',
       );
     }
 
-    await dependency.disposeValue(resolvedValue);
-    _lastResolvedValues.removeDependencyAndValue(dependency);
+    await blueprint.disposeValue(resolvedValue);
+    _lastResolvedValues.removeBlueprintAndValue(blueprint);
   }
 
-  T _createAndSaveValue<T>(IDependency<T> dependency) {
-    final value = dependency.createValue(this);
-    _lastResolvedValues.saveValueForDependency(dependency, value);
+  T _createAndSaveValue<T>(IBlueprint<T> blueprint) {
+    final value = blueprint.createValue(this);
+    _lastResolvedValues.saveValueForBlueprint(blueprint, value);
     return value;
   }
 
-  Future<T> _createAndSaveValueAsync<T>(IAsyncDependency<T> dependency) async {
-    final value = await dependency.createValue(this);
-    _lastResolvedValues.saveValueForDependency(dependency, value);
+  Future<T> _createAndSaveValueAsync<T>(IAsyncBlueprint<T> blueprint) async {
+    final value = await blueprint.createValue(this);
+    _lastResolvedValues.saveValueForBlueprint(blueprint, value);
     return value;
   }
 }

@@ -1,10 +1,10 @@
-import 'i_async_dependency.dart';
-import 'i_dependency.dart';
+import 'i_async_blueprint.dart';
+import 'i_blueprint.dart';
 
 abstract class IContainer {
-  T get<T>(IDependency<T> dependency);
+  T get<T>(IBlueprint<T> blueprint);
 
-  Future<T> getAsync<T>(IAsyncDependency<T> dependency);
+  Future<T> getAsync<T>(IAsyncBlueprint<T> blueprint);
 
-  Future<void> dispose<T>(IDependency<T> dependency, T resolvedValue);
+  Future<void> dispose<T>(IBlueprint<T> blueprint, T resolvedValue);
 }

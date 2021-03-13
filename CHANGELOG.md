@@ -1,3 +1,6 @@
+## 0.5.0-dev
+- The term "dependency" has been replaced by "blueprint" everywhere.
+
 ## 0.4.0-dev
 - Added `AsyncLazySingleton` and `AsyncFactory`.
 
@@ -6,5 +9,5 @@
 - Added a parameter `scope` to instance creating functions of `LazySingleton` and `Factory`.
 
 ## 0.2.0-dev
-- Added dependency classes `Factory`, `Singleton`, `LazySingleton`.
+- Added blueprint classes `Factory`, `Singleton`, `LazySingleton`.
 - Added `Container`.

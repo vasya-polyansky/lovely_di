@@ -1,27 +1,27 @@
-import 'interfaces/i_base_dependency.dart';
+import 'interfaces/i_base_blueprint.dart';
 
-class ResolvedValueStore<D extends IBaseDependency<V>, V> {
-  final Map<D, V> _savedValues = {};
+class ResolvedValueStore<B extends IBaseBlueprint<V>, V> {
+  final Map<B, V> _savedValues = {};
 
-  bool isValueSaved(D dependency) {
-    return _savedValues.containsKey(dependency);
+  bool isValueSaved(B blueprint) {
+    return _savedValues.containsKey(blueprint);
   }
 
-  void saveValueForDependency(
-    D dependency,
+  void saveValueForBlueprint(
+    B blueprint,
     V value,
   ) {
-    _savedValues[dependency] = value;
+    _savedValues[blueprint] = value;
   }
 
-  V geValueForDependency(D dependency) {
+  V geValueForBlueprint(B blueprint) {
     final entry = _savedValues.entries.singleWhere(
-      (entry) => identical(entry.key, dependency),
+      (entry) => identical(entry.key, blueprint),
     );
     return entry.value;
   }
 
-  void removeDependencyAndValue(D dependency) {
-    _savedValues.remove(dependency);
+  void removeBlueprintAndValue(B blueprint) {
+    _savedValues.remove(blueprint);
   }
 }

@@ -1,8 +1,8 @@
 import '../interfaces/i_container.dart';
-import '../interfaces/i_async_dependency.dart';
+import '../interfaces/i_async_blueprint.dart';
 import '../interfaces/typedefs.dart';
 
-class AsyncFactory<T> implements IAsyncDependency<T> {
+class AsyncFactory<T> implements IAsyncBlueprint<T> {
   final CreateInstanceAsync<T> _createInstanceAsync;
   final OnDispose<T>? onDispose;
 

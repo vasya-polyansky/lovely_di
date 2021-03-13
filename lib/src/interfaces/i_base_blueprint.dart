@@ -1,3 +1,3 @@
-abstract class IBaseDependency<T> {
+abstract class IBaseBlueprint<T> {
   Future<void> disposeValue(T resolvedValue);
 }
