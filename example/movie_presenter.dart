@@ -14,7 +14,9 @@ class ExampleMoviePresenter implements IMoviePresenter {
   static Future<ExampleMoviePresenter> create(
     IMovieApiClient client,
   ) async {
-    await Future.delayed(const Duration(milliseconds: 100)); // for demonstration purpose;
+    await Future.delayed(
+      const Duration(milliseconds: 100),
+    ); // for demonstration purpose;
     return ExampleMoviePresenter._(client);
   }
 

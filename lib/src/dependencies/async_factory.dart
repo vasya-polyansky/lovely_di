@@ -7,6 +7,7 @@ import '../interfaces/typedefs.dart';
 class AsyncFactory<T> implements IAsyncBlueprint<T> {
   /// Asynchronously creates a new value.
   final CreateInstanceAsync<T> createInstanceAsync;
+
   /// Disposes a value.
   final OnDispose<T>? onDispose;
 
@@ -22,5 +23,7 @@ class AsyncFactory<T> implements IAsyncBlueprint<T> {
   Future<bool> shouldUpdateValue(T resolvedValue) async => true;
 
   @override
-  Future<void> disposeValue(T resolvedValue) async => onDispose?.call(resolvedValue);
+  Future<void> disposeValue(T resolvedValue) async {
+    return onDispose?.call(resolvedValue);
+  }
 }
