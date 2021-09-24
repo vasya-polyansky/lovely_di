@@ -2,7 +2,7 @@ import '../exceptions/disposing_exception.dart';
 import 'i_async_blueprint.dart';
 import 'i_blueprint.dart';
 
-/// Container to manage dependencies.
+/// Container to manage blueprints.
 abstract class IContainer {
   /// Resolves a value produced by [blueprint].
   T get<T>(IBlueprint<T> blueprint);

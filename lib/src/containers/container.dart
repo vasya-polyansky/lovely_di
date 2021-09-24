@@ -5,7 +5,7 @@ import '../interfaces/i_container.dart';
 import '../interfaces/i_blueprint.dart';
 import '../resolved_value_store.dart';
 
-/// Container to manage dependencies.
+/// Container to manage blueprints.
 /// Stores resolved values for reuse in case a blueprint requires it.
 class Container implements IContainer {
   final ResolvedValueStore _lastResolvedValues = ResolvedValueStore();

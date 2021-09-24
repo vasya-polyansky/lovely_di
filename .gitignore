@@ -12,5 +12,8 @@ build/
 # Directory created by dartdoc
 doc/api/
 
-# IntelliJ related
+# IntelliJ IDEA related
 .idea/
+
+# Visual Studio Code related
+.vscode/
